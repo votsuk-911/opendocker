@@ -1,31 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "version": "0.4.0",
   "name": "opendocker",
+  "description": "A CLI tool for managing Docker",
+  "private": true,
   "type": "module",
-  "private": false,
-  "bin": {
-    "opendocker": "bin/opendocker"
-  },
-  "files": [
-    "bin/",
-    "package.json",
-    "README.md"
-  ],
+  "packageManager": "bun@1.3.6",
   "scripts": {
-    "dev": "bun run --conditions=browser ./src/index.tsx",
-    "build": "bun run scripts/build.ts"
+    "dev": "bun run --conditions=browser ./packages/cli/src/index.tsx",
+    "test": "echo 'Hello World!'"
   },
-  "devDependencies": {
-    "@tsconfig/bun": "latest",
-    "@types/bun": "latest"
-  },
-  "dependencies": {
-    "@opentui/core": "^0.1.72",
-    "@opentui/solid": "^0.1.72",
-    "@types/dockerode": "^3.3.47",
-    "clipboardy": "^5.0.2",
-    "dockerode": "^4.0.9",
-    "solid-js": "^1.9.10"
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }

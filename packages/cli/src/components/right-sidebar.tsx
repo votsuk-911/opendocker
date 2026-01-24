@@ -1,0 +1,19 @@
+import { Show } from 'solid-js';
+import ContainerHeader from '@/components/panes/container/header';
+import ContainerLogs from '@/components/panes/container/logs';
+import ContainerFilter from '@/components/panes/container/filter';
+import { useApplication } from '@/context/application';
+
+export default function RightSidebar() {
+    const app = useApplication();
+
+    return (
+        <box flexDirection="column" gap={1} width="70%" height="100%">
+            <Show when={app.activePane === 'containers' || app.activePane === 'filter'}>
+                <ContainerHeader />
+                <ContainerLogs />
+                <ContainerFilter />
+            </Show>
+        </box>
+    );
+}
