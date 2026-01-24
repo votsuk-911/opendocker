@@ -60,10 +60,6 @@ Yes. OpenDocker supports OSC52 for clipboard operations, so copying text works e
 - Docker (or a Docker-compatible runtime) installed and running
 - macOS, Linux, or Windows
 
-### Contributing
-
-If you're interested in contributing to OpenDocker, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
-
 ---
 
 **Follow along** [X.com](https://x.com/swe_steeve)
