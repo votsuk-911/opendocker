@@ -1,6 +1,6 @@
 ---
 description: Guide product decisions focused on user experience and market fit
-mode: primary
+mode: subagent
 temperature: 0.4
 color: "#FF00AF"
 permission:
