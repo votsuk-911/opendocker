@@ -39,9 +39,6 @@ await $`mkdir -p ${mainPkgDir}`
 // Copy the bin directory (contains wrapper script)
 await $`cp -r ./bin ${mainPkgDir}/bin`
 
-// Copy the postinstall script
-await $`cp ${path.join(__dirname, "postinstall.mjs")} ${mainPkgDir}/postinstall.mjs`
-
 // Create the main package.json with optionalDependencies
 await Bun.file(path.join(mainPkgDir, "package.json")).write(
   JSON.stringify(
@@ -51,9 +48,6 @@ await Bun.file(path.join(mainPkgDir, "package.json")).write(
       description: pkg.description || "A CLI tool for managing Docker",
       bin: {
         [pkg.name]: `./bin/${pkg.name}`,
-      },
-      scripts: {
-        postinstall: "bun ./postinstall.mjs || node ./postinstall.mjs",
       },
       optionalDependencies,
     },
