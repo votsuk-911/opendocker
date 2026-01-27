@@ -3,11 +3,11 @@
 </p>
 <p align="center">A beautiful TUI for managing Docker containers, images, and volumes.</p>
 <p align="center">
-  <a href="https://www.npmjs.com/package/opendocker"><img alt="npm version" src="https://img.shields.io/npm/v/opendocker?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/opendocker"><img alt="npm version" src="https://img.shields.io/npm/v/opendocker" /></a>
   <a href="./LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
 </p>
 
-[![OpenDocker Terminal UI](./screenshot.png)](#)
+[![OpenDocker Terminal UI](packages/cli/assets/screenshot.png)](https://opendocker.dev)
 
 ---
 
