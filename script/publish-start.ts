@@ -26,6 +26,10 @@ await $`bun run build`.cwd("packages/cli")
 console.log("\n=== publish to npm ===\n")
 await import("../packages/cli/scripts/publish.ts")
 
+// Restore working directory after publish script (which may have changed it)
+const rootDir = new URL("..", import.meta.url).pathname
+process.chdir(rootDir)
+
 // Create archives for GitHub release
 console.log("\n=== creating archives ===\n")
 const distDir = new URL("../packages/cli/dist", import.meta.url).pathname
@@ -47,8 +51,7 @@ for (const dir of dirs) {
 
 // Git commit, tag, and push
 console.log("\n=== git ===\n")
-await $`git add packages/cli/package.json`
-await $`git commit -m "release: v${Script.version}"`
+await $`git commit -am "release: v${Script.version}"`
 await $`git tag v${Script.version}`
 await $`git push origin HEAD --tags`
 
