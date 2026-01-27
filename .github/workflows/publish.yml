@@ -47,6 +47,10 @@ jobs:
           git config --global user.email "kustovsteven@gmail.com"
           git config --global user.name "opendocker"
 
+      - name: Install opencode
+        if: inputs.bump || inputs.version
+        run: bun install -g opencode-ai@latest
+
       - name: Install Dependencies
         run: bun install
 
