@@ -1,24 +1,31 @@
-import { TextAttributes } from '@opentui/core';
+import { RGBA, TextAttributes } from '@opentui/core';
 import type { BoxProps } from '@opentui/solid';
-import { splitProps, type Accessor, type JSX } from 'solid-js';
+import { createEffect, createSignal, splitProps, type Accessor, type JSX } from 'solid-js';
 import { SplitBorder } from '@/components/border';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 
 interface PaneProps extends Omit<BoxProps, 'borderColor'> {
     children?: JSX.Element;
     title?: string;
-    borderColor?: Accessor<string> | string;
+    borderColor?: Accessor<RGBA> | string | RGBA;
     active?: boolean;
 }
 
 export function Pane(props: PaneProps) {
     const [local, others] = splitProps(props, ['children', 'title', 'borderColor', 'active']);
+    const theme = useTheme();
+    const colors = theme.theme;
+    const [bg, setBg] = createSignal(theme.mode() === 'dark' ? theme.theme.backgroundPanel : theme.theme.backgroundElement);
 
     function getBorderColor() {
-        if (!local.borderColor) return colors.backgroundPanel;
+        if (!local.borderColor) return bg();
         if (typeof local.borderColor === 'function') return local.borderColor();
         return local.borderColor;
     }
+
+    createEffect(() => {
+        setBg(theme.mode() === 'dark' ? theme.theme.backgroundPanel : theme.theme.backgroundElement);
+    });
 
     return (
         <box
@@ -29,7 +36,7 @@ export function Pane(props: PaneProps) {
             {...(local.active === false ? { height: 3 } : {})}
         >
             <box
-                backgroundColor={colors.backgroundPanel}
+                backgroundColor={bg()}
                 width="100%"
                 height={local.active !== undefined ? "100%" : undefined}
                 paddingTop={1}

@@ -8,7 +8,7 @@ import { TextAttributes } from '@opentui/core';
 import { useApplication } from '@/context/application';
 import type { Volume } from '@/context/application';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 
 type SimpleField = {
     label: string;
@@ -22,6 +22,7 @@ type RecordField = {
 
 export default function Config() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [volume, setVolume] = createSignal<Volume>();
     
     createEffect(() => {
@@ -63,17 +64,17 @@ export default function Config() {
                 marginTop={1}
             >
                 <Show when={app.activeVolume} fallback={
-                    <text fg={colors.textMuted} paddingLeft={2}>
+                    <text fg={theme.textMuted} paddingLeft={2}>
                         No volume selected
                     </text>
                 }>
                     <For each={simpleFields}>
                         {(field) => (
                             <box flexDirection="row" gap={3}>
-                                <text fg={colors.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
+                                <text fg={theme.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
                                     {field.label.padEnd(maxLabelLength)}
                                 </text>
-                                <text fg={colors.text}>{field.value()}</text>
+                                <text fg={theme.text}>{field.value()}</text>
                             </box>
                         )}
                     </For>
@@ -83,11 +84,11 @@ export default function Config() {
                             return (
                                 <>
                                     <box flexDirection="row" gap={3}>
-                                        <text fg={colors.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
+                                        <text fg={theme.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
                                             {field.label.padEnd(maxLabelLength)}
                                         </text>
                                         <Show when={entries().length === 0}>
-                                            <text fg={colors.text}>None</text>
+                                            <text fg={theme.text}>None</text>
                                         </Show>
                                     </box>
                                     <Show when={entries().length > 0}>
@@ -95,8 +96,8 @@ export default function Config() {
                                             <For each={entries()}>
                                                 {([key, value]) => (
                                                     <box flexDirection="column">
-                                                        <text fg={colors.textMuted}>{key}</text>
-                                                        <text fg={colors.text}>{value}</text>
+                                                        <text fg={theme.textMuted}>{key}</text>
+                                                        <text fg={theme.text}>{value}</text>
                                                     </box>
                                                 )}
                                             </For>

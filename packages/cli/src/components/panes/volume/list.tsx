@@ -11,13 +11,14 @@ import {
     Show,
 } from 'solid-js';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
 import { Loader } from '@/ui/loader';
+import { useTheme } from '@/context/theme';
 import { useApplication } from '@/context/application';
 import type { Volume } from '@/context/application';
 
 export default function List() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [loaded, setLoaded] = createSignal<boolean>(false);
     const [active, setActive] = createSignal<boolean>(false);
     const maxDriverLength = () => Math.max(...app.volumes.map(v => v.driver.length), 0);
@@ -115,7 +116,7 @@ export default function List() {
             width="100%"
             flexGrow={active() ? 1 : 0}
             flexShrink={1}
-            borderColor={() => active() ? colors.accent : colors.backgroundPanel}
+            borderColor={() => active() ? theme.accent : theme.backgroundPanel}
             active={active()}
         >
             <Show when={active()}>
@@ -127,7 +128,7 @@ export default function List() {
                                     const isActive = () => app.activeVolume === volume.name;
                                     return (
                                         <box
-                                            backgroundColor={isActive() ? colors.accent : undefined}
+                                            backgroundColor={isActive() ? theme.accent : undefined}
                                             flexDirection="row"
                                             gap={1}
                                             paddingLeft={1}
@@ -136,8 +137,8 @@ export default function List() {
                                             <text
                                                 fg={
                                                     isActive()
-                                                        ? colors.backgroundPanel
-                                                        : colors.textMuted
+                                                        ? theme.backgroundPanel
+                                                        : theme.textMuted
                                                 }
                                                 attributes={
                                                     isActive() ? TextAttributes.BOLD : undefined
@@ -149,8 +150,8 @@ export default function List() {
                                             <text
                                                 fg={
                                                     isActive()
-                                                        ? colors.backgroundPanel
-                                                        : colors.textMuted
+                                                        ? theme.backgroundPanel
+                                                        : theme.textMuted
                                                 }
                                                 attributes={
                                                     isActive() ? TextAttributes.BOLD : undefined
@@ -170,8 +171,8 @@ export default function List() {
                     <Match when={app.volumes.length === 0 && loaded()}>
                         <box flexDirection="column" width="100%">
                             <box paddingLeft={1} paddingRight={1} paddingBottom={1}>
-                                <text fg={colors.textMuted}>No volumes found</text>
-                                <text fg={colors.textMuted}>
+                                <text fg={theme.textMuted}>No volumes found</text>
+                                <text fg={theme.textMuted}>
                                     Try: docker volume create my-volume to get started
                                 </text>
                             </box>

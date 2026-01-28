@@ -1,14 +1,12 @@
 import {
     createEffect,
     createSignal,
-    For,
     Show,
 } from 'solid-js';
-import { TextAttributes } from '@opentui/core';
 import { useApplication } from '@/context/application';
 import type { Image } from '@/context/application';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 
 type ConfigField = {
     label: string;
@@ -16,6 +14,7 @@ type ConfigField = {
 };
 
 export default function Config() {
+    const theme = useTheme().theme;
     const app = useApplication();
     const [image, setImage] = createSignal<Image>();
     
@@ -41,7 +40,7 @@ export default function Config() {
                 marginTop={1}
             >
                 <Show when={app.activeImage} fallback={
-                    <text fg={colors.textMuted}>No image selected</text>
+                    <text fg={theme.textMuted}>No image selected</text>
                 }>
                     <box>
                         <text>things go here</text>
@@ -52,12 +51,12 @@ export default function Config() {
                     {/*             {(field) => ( */}
                     {/*                 <tr> */}
                     {/*                     <td textAlign="left"> */}
-                    {/*                         <text fg={colors.textMuted} attributes={TextAttributes.BOLD}> */}
+                    {/*                         <text fg={theme.textMuted} attributes={TextAttributes.BOLD}> */}
                     {/*                             {field.label} */}
                     {/*                         </text> */}
                     {/*                     </td> */}
                     {/*                     <td textAlign="left"> */}
-                    {/*                         <text fg={colors.text}>{field.value()}</text> */}
+                    {/*                         <text fg={theme.text}>{field.value()}</text> */}
                     {/*                     </td> */}
                     {/*                 </tr> */}
                     {/*             )} */}

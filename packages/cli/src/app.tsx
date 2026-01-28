@@ -8,21 +8,27 @@ import { ToastProvider, useToast } from './ui/toast';
 import { Clipboard } from './util/clipboard';
 import { ApplicationProvider, useApplication } from './context/application';
 import { KeybindProvider, useKeybind } from './context/keybind';
+import { ThemeProvider, useTheme } from './context/theme';
+import { KVProvider } from './context/kv';
 
 export function tui() {
     return (
         <ToastProvider>
-            <ApplicationProvider>
-                <KeybindProvider>
-                    <BaseLayout>
-                        <ErrorBoundary fallback={(error, _) => <ErrorComponent error={error} />}>
-                            <App />
-                        </ErrorBoundary>
-                    </BaseLayout>
-                </KeybindProvider>
-            </ApplicationProvider>
+            <KVProvider>
+                <ApplicationProvider>
+                    <ThemeProvider mode='light'>
+                        <KeybindProvider>
+                            <BaseLayout>
+                                <ErrorBoundary fallback={(error, _) => <ErrorComponent error={error} />}>
+                                    <App />
+                                </ErrorBoundary>
+                            </BaseLayout>
+                        </KeybindProvider>
+                    </ThemeProvider>
+                </ApplicationProvider>
+            </KVProvider>
         </ToastProvider>
-    );
+    )
 }
 
 function App() {
@@ -30,6 +36,7 @@ function App() {
     const toast = useToast();
     const app = useApplication();
     const keybind = useKeybind();
+    const theme = useTheme();
 
     useKeyboard(event => {
         if (app.filtering) return;
@@ -41,6 +48,10 @@ function App() {
         if (event.ctrl && event.name === 'd') {
             renderer?.console.toggle();
             renderer?.toggleDebugOverlay();
+        }
+
+        if (keybind.match("theme_mode_toggle", event)) {
+            theme.setMode(theme.mode() === 'light' ? 'dark' : 'light');
         }
     });
 

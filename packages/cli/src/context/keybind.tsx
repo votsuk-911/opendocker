@@ -14,7 +14,7 @@ export const { use: useKeybind, provider: KeybindProvider } = createSimpleContex
     const app = useApplication()
     const keybinds = createMemo(() => {
       return pipe(
-        app.keybinds ?? {},
+        app.config.keybinds ?? {},
         mapValues((value) => Keybind.parse(value)),
       )
     })

@@ -32,6 +32,11 @@ const Volume = z.object({
 });
 export type Volume = z.infer<typeof Volume>;
 
+type Config = {
+    theme?: string,
+    keybinds: KeybindsConfig,
+}
+
 export const { use: useApplication, provider: ApplicationProvider } = createSimpleContext({
     name: "Application",
     init: () => {
@@ -46,7 +51,7 @@ export const { use: useApplication, provider: ApplicationProvider } = createSimp
             activePane: string,
             filters: Record<string, string>,
             filtering: boolean,
-            keybinds: KeybindsConfig,
+            config: Config 
         }>({
             containers: [],
             images: [],
@@ -58,7 +63,10 @@ export const { use: useApplication, provider: ApplicationProvider } = createSimp
             activePane: 'containers',
             filters: {},
             filtering: false,
-            keybinds: KeybindsConfig.parse({}),
+            config: {
+                keybinds: KeybindsConfig.parse({}),
+                theme: 'opencode',
+            },
         });
 
         return {
@@ -72,7 +80,7 @@ export const { use: useApplication, provider: ApplicationProvider } = createSimp
             get activePane() { return store.activePane },
             get filters() { return store.filters },
             get filtering() { return store.filtering },
-            get keybinds() { return store.keybinds },
+            get config() { return store.config },
 
             setContainers: (v: Container[]) => setStore("containers", v),
             setImages: (v: Image[]) => setStore("images", v),
@@ -84,6 +92,7 @@ export const { use: useApplication, provider: ApplicationProvider } = createSimp
             setActivePane: (v: string) => setStore("activePane", v),
             setFilters: (v: Record<string, string>) => setStore("filters", v),
             setFiltering: (v: boolean) => setStore("filtering", v),
+            setConfig: (v: Config) => setStore("config", v),
         }
     },
 })

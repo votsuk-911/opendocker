@@ -1,11 +1,13 @@
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 
 interface LoaderProps {
     color?: string;
 }
 
 export function Loader(props: LoaderProps) {
+    const theme = useTheme().theme;
+
     const FRAMES = [
         '▱▱▱▱▱▱▱',
         '▱▱▱▱▱▱▱',
@@ -37,5 +39,5 @@ export function Loader(props: LoaderProps) {
         });
     });
 
-    return <text fg={props.color || colors.diffAdded}>{FRAMES[frame()]}</text>;
+    return <text fg={props.color || theme.diffAdded}>{FRAMES[frame()]}</text>;
 }

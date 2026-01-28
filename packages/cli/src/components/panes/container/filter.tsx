@@ -1,12 +1,13 @@
 import { createSignal, Switch, Match, createEffect } from 'solid-js';
 import { KeyEvent, TextareaRenderable } from '@opentui/core';
 import { useKeyboard } from '@opentui/solid';
-import { colors } from '@/util/colors';
 import { SplitBorder } from '@/components/border';
 import { useApplication } from '@/context/application';
+import { useTheme } from '@/context/theme';
 
 export default function Filter() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [value, setValue] = createSignal<string>('');
     let input: TextareaRenderable;
 
@@ -65,10 +66,10 @@ export default function Filter() {
         <box
             border={['left']}
             customBorderChars={SplitBorder.customBorderChars}
-            borderColor={app.activePane === 'filter' ? colors.secondary : colors.border}
+            borderColor={app.activePane === 'filter' ? theme.secondary : theme.border}
             flexShrink={0}
         >
-            <box backgroundColor={colors.backgroundPanel} flexDirection="row">
+            <box backgroundColor={theme.backgroundPanel} flexDirection="row">
                 <box
                     gap={1}
                     paddingLeft={1}
@@ -80,19 +81,19 @@ export default function Filter() {
                     <textarea
                         marginLeft={1}
                         placeholder={`Type to filter... "GET /api"`}
-                        textColor={colors.textMuted}
-                        focusedTextColor={colors.text}
+                        textColor={theme.textMuted}
+                        focusedTextColor={theme.text}
                         minHeight={1}
                         maxHeight={1}
                         onContentChange={() => setValue(input.plainText)}
                         ref={(r: TextareaRenderable) => {
                             input = r;
                             setTimeout(() => {
-                                input.cursorColor = colors.text;
+                                input.cursorColor = theme.text;
                             }, 0);
                         }}
-                        focusedBackgroundColor={colors.backgroundPanel}
-                        cursorColor={colors.warning}
+                        focusedBackgroundColor={theme.backgroundPanel}
+                        cursorColor={theme.warning}
                         onKeyDown={key => {
                             if (key.name === 'enter' || key.name === 'return') {
                                 submit(key);
@@ -112,7 +113,7 @@ export default function Filter() {
                     paddingLeft={1}
                     paddingRight={2}
                     paddingBottom={1}
-                    backgroundColor={colors.backgroundElement}
+                    backgroundColor={theme.backgroundElement}
                     justifyContent="space-between"
                 >
                     <box flexDirection="row" gap={1}>
@@ -120,16 +121,16 @@ export default function Filter() {
                     <box flexDirection="row" gap={2}>
                         <Switch>
                             <Match when={!app.filtering}>
-                                <text fg={colors.text}>
-                                    {"f"} <span style={{ fg: colors.textMuted }}>filter</span>
+                                <text fg={theme.text}>
+                                    {"f"} <span style={{ fg: theme.textMuted }}>filter</span>
                                 </text>
                             </Match>
                             <Match when={app.filtering}>
-                                <text fg={colors.text}>
-                                    esc <span style={{ fg: colors.textMuted }}>cancel</span>
+                                <text fg={theme.text}>
+                                    esc <span style={{ fg: theme.textMuted }}>cancel</span>
                                 </text>
-                                <text fg={colors.text}>
-                                    enter <span style={{ fg: colors.textMuted }}>confirm</span>
+                                <text fg={theme.text}>
+                                    enter <span style={{ fg: theme.textMuted }}>confirm</span>
                                 </text>
                             </Match>
                         </Switch>

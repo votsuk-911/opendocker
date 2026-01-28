@@ -18,6 +18,5 @@ render(tui, {
         maxStoredLogs: 1000,
         sizePercent: 70,
         onCopySelection: text => copyToClipboard(text),
-        backgroundColor: '#000000',
     },
 });

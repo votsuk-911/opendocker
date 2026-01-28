@@ -13,11 +13,12 @@ import {
 import { useApplication } from '@/context/application';
 import type { Image } from '@/context/application';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 import { Loader } from '@/ui/loader';
 
 export default function List() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [loaded, setLoaded] = createSignal<boolean>(false);
     const [active, setActive] = createSignal<boolean>(false);
 
@@ -114,7 +115,7 @@ export default function List() {
             width="100%"
             flexGrow={active() ? 1 : 0}
             flexShrink={1}
-            borderColor={() => active() ? colors.success : colors.backgroundPanel}
+            borderColor={() => active() ? theme.success : theme.backgroundPanel}
             active={active()}
         >
             <Show when={active()}>
@@ -126,7 +127,7 @@ export default function List() {
                                     const isActive = () => app.activeImage === image.id;
                                     return (
                                         <box
-                                            backgroundColor={isActive() ? colors.success : undefined}
+                                            backgroundColor={isActive() ? theme.success : undefined}
                                             flexDirection="row"
                                             gap={1}
                                             paddingLeft={1}
@@ -135,8 +136,8 @@ export default function List() {
                                             <text
                                                 fg={
                                                     isActive()
-                                                        ? colors.backgroundPanel
-                                                        : colors.textMuted
+                                                        ? theme.backgroundPanel
+                                                        : theme.textMuted
                                                 }
                                                 attributes={
                                                     isActive() ? TextAttributes.BOLD : undefined
@@ -156,8 +157,8 @@ export default function List() {
                     <Match when={app.images.length === 0 && loaded()}>
                         <box flexDirection="column" width="100%">
                             <box paddingLeft={1} paddingRight={1} paddingBottom={1}>
-                                <text fg={colors.textMuted}>No images found</text>
-                                <text fg={colors.textMuted}>
+                                <text fg={theme.textMuted}>No images found</text>
+                                <text fg={theme.textMuted}>
                                     Try: docker pull hello-world to get started
                                 </text>
                             </box>

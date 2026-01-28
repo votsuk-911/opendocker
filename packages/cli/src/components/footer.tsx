@@ -1,9 +1,10 @@
 import { $ } from 'bun';
 import { createSignal, onMount } from 'solid-js';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 import { TextAttributes } from '@opentui/core';
 
 export default function Footer() {
+    const theme = useTheme().theme;
     const [pwd, setPwd] = createSignal('');
     const version = getVersion();
 
@@ -43,7 +44,7 @@ export default function Footer() {
            paddingBottom={1}
        >
            <box>
-               <text fg={colors.textMuted}>{pwd()}</text>
+               <text fg={theme.textMuted}>{pwd()}</text>
            </box>
            <box flexDirection="row" gap={1}>
                <box
@@ -51,15 +52,15 @@ export default function Footer() {
                    gap={1}
                >
                    <box flexDirection="row">
-                       <text fg={colors.textMuted} attributes={TextAttributes.BOLD}>
+                       <text fg={theme.textMuted} attributes={TextAttributes.BOLD}>
                            open
                        </text>
-                       <text fg={colors.text} attributes={TextAttributes.BOLD}>
+                       <text fg={theme.text} attributes={TextAttributes.BOLD}>
                            docker
                        </text>
                    </box>
                </box>
-               <text fg={colors.textMuted}>{version}</text>
+               <text fg={theme.textMuted}>{version}</text>
            </box>
        </box>
 

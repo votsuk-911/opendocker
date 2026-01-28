@@ -8,7 +8,7 @@ import { ScrollBoxRenderable, TextAttributes } from '@opentui/core';
 import { useApplication } from '@/context/application';
 import { Docker, type ImageHistoryItem } from '@/lib/docker';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
+import { useTheme } from '@/context/theme';
 
 function formatSize(bytes: number): string {
     if (bytes === 0) return '0 B';
@@ -34,6 +34,7 @@ const HEADERS = {
 
 export default function History() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [history, setHistory] = createSignal<ImageHistoryItem[]>([]);
     const [scroll, setScroll] = createSignal<ScrollBoxRenderable>();
 
@@ -73,19 +74,19 @@ export default function History() {
                 flexDirection="column"
             >
                 <Show when={app.activeImage} fallback={
-                    <text fg={colors.textMuted}>No image selected</text>
+                    <text fg={theme.textMuted}>No image selected</text>
                 }>
                     <Show when={history().length > 0} fallback={
-                        <text fg={colors.textMuted}>Loading history...</text>
+                        <text fg={theme.textMuted}>Loading history...</text>
                     }>
                         <box flexDirection="row" gap={2} marginBottom={1}>
-                            <text fg={colors.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
+                            <text fg={theme.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
                                 {HEADERS.layerId.padEnd(maxIdLength())}
                             </text>
-                            <text fg={colors.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
+                            <text fg={theme.textMuted} attributes={TextAttributes.BOLD} flexShrink={0}>
                                 {HEADERS.size.padEnd(maxSizeLength())}
                             </text>
-                            <text fg={colors.textMuted} attributes={TextAttributes.BOLD}>{HEADERS.command}</text>
+                            <text fg={theme.textMuted} attributes={TextAttributes.BOLD}>{HEADERS.command}</text>
                         </box>
                         <scrollbox
                             ref={(r: ScrollBoxRenderable) => setScroll(r)}
@@ -97,13 +98,13 @@ export default function History() {
                                 <For each={history()}>
                                     {(item) => (
                                         <box flexDirection="row" gap={2}>
-                                            <text fg={colors.textMuted} flexShrink={0}>
+                                            <text fg={theme.textMuted} flexShrink={0}>
                                                 {formatId(item.Id).padEnd(maxIdLength())}
                                             </text>
-                                            <text fg={colors.textMuted} flexShrink={0}>
+                                            <text fg={theme.textMuted} flexShrink={0}>
                                                 {formatSize(item.Size).padEnd(maxSizeLength())}
                                             </text>
-                                            <text fg={colors.text} flexShrink={1} wrapMode="none">{formatCommand(item.CreatedBy)}</text>
+                                            <text fg={theme.text} flexShrink={1} wrapMode="none">{formatCommand(item.CreatedBy)}</text>
                                         </box>
                                     )}
                                 </For>

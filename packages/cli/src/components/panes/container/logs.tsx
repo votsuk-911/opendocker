@@ -3,12 +3,13 @@ import { ScrollBoxRenderable } from '@opentui/core';
 import { useKeyboard } from '@opentui/solid';
 import { useApplication } from '@/context/application';
 import { Pane } from '@/ui/pane';
-import { colors } from '@/util/colors';
 import { stripANSI } from 'bun';
 import { SyntaxStyle } from '@opentui/core';
+import { useTheme } from '@/context/theme';
 
 export default function Logs() {
     const app = useApplication();
+    const theme = useTheme().theme;
     const [logs, setLogs] = createSignal<string>('');
     const [tempLogs, setTempLogs] = createSignal<string>('');
     const [paused, setPaused] = createSignal<boolean>(false);
@@ -128,21 +129,21 @@ export default function Logs() {
                                 syntaxStyle={logSyntaxStyle}
                                 streaming={false}
                                 width={width()}
-                                fg={colors.textMuted}
+                                fg={theme.textMuted}
                             />
                         </scrollbox>
                     </Match>
                     <Match when={!app.activeContainer && app.containers.length > 0}>
                         <box height='100%' width='100%' paddingLeft={1} paddingRight={1}>
-                            <text fg={colors.textMuted}>No container selected</text>
-                            <text fg={colors.textMuted}>
+                            <text fg={theme.textMuted}>No container selected</text>
+                            <text fg={theme.textMuted}>
                                 Select a container to view logs (use j/k or ↑/↓ to navigate)
                             </text>
                         </box>
                     </Match>
                     <Match when={!app.activeContainer && app.containers.length === 0}>
                         <box height='100%' width='100%' paddingLeft={1} paddingRight={1}>
-                            <text fg={colors.textMuted}>No container selected</text>
+                            <text fg={theme.textMuted}>No container selected</text>
                         </box>
                     </Match>
                 </Switch>

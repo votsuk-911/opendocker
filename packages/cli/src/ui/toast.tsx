@@ -3,7 +3,7 @@ import { useTerminalDimensions } from '@opentui/solid';
 import { createContext, type ParentProps, Show, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { SplitBorder } from '@/components/border';
-import { colors } from '../util/colors';
+import { useTheme } from '@/context/theme';
 
 interface ToastOptions {
     title?: string;
@@ -13,6 +13,7 @@ interface ToastOptions {
 }
 
 export function Toast() {
+    const theme = useTheme().theme;
     const toast = useToast();
     const dimensions = useTerminalDimensions();
 
@@ -30,17 +31,17 @@ export function Toast() {
                     paddingRight={2}
                     paddingTop={1}
                     paddingBottom={1}
-                    backgroundColor={colors.backgroundElement}
-                    borderColor={colors.border}
+                    backgroundColor={theme.backgroundElement}
+                    borderColor={theme.border}
                     border={['left']}
                     customBorderChars={SplitBorder.customBorderChars}
                 >
                     <Show when={current().title}>
-                        <text attributes={TextAttributes.BOLD} marginBottom={1} fg={colors.text}>
+                        <text attributes={TextAttributes.BOLD} marginBottom={1} fg={theme.text}>
                             {current().title}
                         </text>
                     </Show>
-                    <text fg={colors.text} wrapMode="word" width="100%">
+                    <text fg={theme.text} wrapMode="word" width="100%">
                         {current().message}
                     </text>
                 </box>
